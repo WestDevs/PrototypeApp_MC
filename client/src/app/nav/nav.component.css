@@ -1,0 +1,8 @@
+.navbar-custom {
+  background-color: darkred;
+}
+
+.dropdown-toggle, .dropdown-item {
+  cursor: pointer;
+
+}
