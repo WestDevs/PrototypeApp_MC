@@ -10,6 +10,7 @@ namespace WEST.Api.Data
                         
         }
         public DbSet<AppUser> Users { get; set; }
+        public DbSet<Organisation> Organisations { get; set; }
         
     }
 }

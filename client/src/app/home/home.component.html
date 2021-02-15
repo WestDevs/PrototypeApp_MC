@@ -1,4 +1,44 @@
-<body class="d-flex h-100 text-center text-white bg-dark" >
+<body class="d-flex flex-column h-100 text-center" style="background-image: url('./assets/splash.png');">
+
+
+
+<div class="container mt-5" >
+  <!-- <div class="cover-container d-flex w-150 h-150 p-3 mx-auto flex-column"
+        style="background-image: url('./assets/splash_small.png');">  -->
+  <!-- <img src="./assets/splash_md.png" alt="Welcome to WEST 2.0" class="img-fluid" /> -->
+  <div *ngIf="!logInMode && !loggedIn" class="text-align: center">
+    <h1>Welcome to WEST – the Wales Essential Skills Toolkit</h1>
+    <p class="lead">WEST puts you in charge of your learning and gives you all the tools and support you need for Essential Skills success.</p>
+    <div class="text-center">
+      <button (click) = "logInToggle()"
+          class="btn btn-primary btn-lg mr-2">
+        <!-- <i class='fa fa-chevron-right'></i> -->
+          Sign in
+        </button>
+        <button class="btn btn-info btn-lg">
+            Take a 10 minute screener
+          </button>
+    </div>
+  </div>
+
+  <div *ngIf="logInMode" class="container">
+    <div class="row justify-content-center">
+      <div class="col-4">
+        <app-login [orgsFromHomeComponent]="orgs" 
+                  (cancelLogin)="cancelLoginMode($event)" 
+                  (submitLogin)="submitLogin($event)"></app-login>
+      </div>
+    </div>
+  </div>
+  
+
+</div>
+
+<div *ngIf="loggedIn">
+  <app-users></app-users>
+</div>
+
+<!-- <body class="d-flex h-100 text-center text-white bg-dark" >
 
     <div class="cover-container d-flex w-150 h-150 p-3 mx-auto flex-column ">
       <header class="mb-0">
@@ -27,3 +67,5 @@
         <p>Cover template for <a href="https://getbootstrap.com/" class="text-white">Bootstrap</a>, by <a href="https://twitter.com/mdo" class="text-white">@mdo</a>.</p>
       </footer>
     </div>
+
+    </body> -->

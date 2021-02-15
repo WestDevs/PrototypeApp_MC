@@ -13,6 +13,8 @@ namespace WEST.Api.Entities
         public DateTime Birthdate { get; set; }
         public UserType Type { get; set; }
         public bool Status { get; set; }
+        public int OrganisationId { get; set; }
+        // to add relationship to Organisation
 
     }
 }

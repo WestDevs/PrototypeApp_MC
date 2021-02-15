@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WEST.Api.Data;
 
 namespace WEST.Api.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20210209053523_OrganisationsAdded")]
+    partial class OrganisationsAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,7 +37,7 @@ namespace WEST.Api.Data.Migrations
                     b.Property<string>("Lastname")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("OrganisationId")
+                    b.Property<int?>("OrganisationId")
                         .HasColumnType("int");
 
                     b.Property<byte[]>("PasswordHash")
@@ -55,6 +57,8 @@ namespace WEST.Api.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("OrganisationId");
+
                     b.ToTable("Users");
                 });
 
@@ -71,6 +75,15 @@ namespace WEST.Api.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Organisations");
+                });
+
+            modelBuilder.Entity("WEST.Api.Entities.AppUser", b =>
+                {
+                    b.HasOne("WEST.Api.Entities.Organisation", "Organisation")
+                        .WithMany()
+                        .HasForeignKey("OrganisationId");
+
+                    b.Navigation("Organisation");
                 });
 #pragma warning restore 612, 618
         }

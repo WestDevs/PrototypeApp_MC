@@ -7,7 +7,7 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarCollapse">
 
-        <ul class="navbar-nav mr-auto" *ngIf = "currentUser$ | async">
+        <ul class="navbar-nav mr-auto" *ngIf = "accountService.currentUser$ | async">
             <li class="divider"></li>
           <li class="nav-item">
             <a class="nav-link" href="#">Home</a>
@@ -17,14 +17,10 @@
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Users</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#" (click)="logout()">Sign out</a>
           </li>        
         </ul>
-
-        <div class="dropdown" *ngIf = "currentUser$ | async" dropdown>
-            <a class="dropdown-toggle text-light" dropdownToggle>Welcome, {{model.username}}</a>
+        <div class="dropdown" *ngIf = "accountService.currentUser$ | async" dropdown>
+            <a class="dropdown-toggle text-light" dropdownToggle>Welcome, </a>
             <div class="dropdown-menu mt-3" *dropdownMenu> 
                 <a  class="dropdown-item">Users</a>
                 <div class="dropdown-divider"></div>
@@ -32,11 +28,12 @@
             </div>
         </div>
 
-        <!-- [hidden] = property-->
-        <form #loginForm="ngForm" 
+        <!-- <div class="mr-auto p-1">
+          <form #loginForm="ngForm" 
             class="form-inline mt-2 mt-md-0" (ngSubmit)="login()" 
             autocomplete="off"
-            *ngIf = "!currentUser$ | async">
+            *ngIf = "(accountService.currentUser$ | async) === null"
+            >
           <input 
             name="username"
             [(ngModel)]="model.username"
@@ -47,8 +44,15 @@
             name="password"
             [(ngModel)]="model.password"
             class="form-control mr-sm-2" type="password" placeholder="Password" >
+          <input 
+            name="organisation"
+            [(ngModel)]="model.organisationId"
+            class="form-control mr-sm-2" type="text" placeholder="Organisation" >
           <button class="btn btn-outline-light" type="submit">Sign in</button>
         </form>
+        </div> -->
+        <!-- [hidden] = property-->
+        
       </div>
     </div>
   </nav>

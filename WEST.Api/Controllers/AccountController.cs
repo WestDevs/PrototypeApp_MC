@@ -47,7 +47,7 @@ namespace WEST.Api.Controllers
         public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
         {
             var user = await _context.Users
-                .SingleOrDefaultAsync<AppUser>(user => user.Username == loginDto.Username);
+                .SingleOrDefaultAsync<AppUser>(user => user.Username == loginDto.Username && user.OrganisationId == loginDto.OrganisationId);
 
             if (user == null) return Unauthorized("Invalid username");
 
@@ -59,6 +59,8 @@ namespace WEST.Api.Controllers
             {
                 if (computedHash[i] != user.PasswordHash[i]) return Unauthorized("Invalid password");
             }
+
+            
             return new UserDto
             {
                 Username = user.Username,
