@@ -1,32 +1,96 @@
-<nav class="navbar navbar-expand-md navbar-dark fixed-top navbar-custom">
-    <div class="container">
-      <a class="navbar-brand" href="#"> <img src="./assets/SignIn Top-Left logo.png" alt="Wales Essential Skills Toolkit" width="325" height="64.8"
-        style="margin-top: 0px; margin-bottom: 0px;"></a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="true" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarCollapse">
-
-        <ul class="navbar-nav mr-auto" *ngIf = "accountService.currentUser$ | async">
-            <li class="divider"></li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Home</a>
+<!-- 
+4 - Navbar with brand and links left and toggler right
+    The links collapse into the mobile menu
+-->
+<nav class="navbar navbar-expand-md navbar-dark navbar-custom">
+  <a routerLink='/' class="navbar-brand">
+    <img src="./assets/SignIn Top-Left logo.png" alt="Wales Essential Skills Toolkit" width="325" height="64.8">
+  </a>
+  <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar4">
+      <span class="navbar-toggler-icon"></span>
+  </button> -->
+  <div class="navbar-collapse collapse" id="navbar4">
+      <ul class="navbar-nav">
+          <li class="nav-item active">
+              <a class="nav-link" routerLink='/'>Home
+                <span class="sr-only">Home</span></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Information</a>
+              <a class="nav-link" routerLink='/'>Information</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Users</a>
-          </li>        
-        </ul>
+      </ul>
+      
         <div class="dropdown" *ngIf = "accountService.currentUser$ | async" dropdown>
-            <a class="dropdown-toggle text-light" dropdownToggle>Welcome, </a>
+            <a class="dropdown-toggle text-light" dropdownToggle>Welcome!</a>
             <div class="dropdown-menu mt-3" *dropdownMenu> 
                 <a  class="dropdown-item">Users</a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" (click)="logout()">Sign out</a>
             </div>
         </div>
+  </div>
+</nav>
+
+
+   <!-- .menuNavLinks -->
+   <nav class="navbar navbar-expand-md navbar-dark navbar-custom" *ngIf="accountService.currentUser$ | async">
+    <div class="container">
+        <button class="navbar-toggler" type="button" data-toggle="collapse"  data-target="#navbar10">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="navbar-collapse collapse" id="navbar10">
+            <ul class="navbar-nav navbar-fill w-200">
+                <li class="nav-item">
+                    <a class="nav-link" routerLink='/users'>Users</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink='/groups'>Groups</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink='/learner-resources'>Learner Resources</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink='/reports'>Reports</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<!--/.menuNavLinks  -->
+
+
+        <!-- <nav class="navbar navbar-expand-md navbar-dark  navbar-custom" id="nav2">
+          <div class="container">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="true" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+      
+              <ul class="navbar-nav mr-auto" *ngIf = "accountService.currentUser$ | async">
+                  <li class="divider"></li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Users</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Groups</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Learner Resources</a>
+                </li>        
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Reports</a>
+                </li>        
+              </ul>
+              <div class="dropdown" *ngIf = "accountService.currentUser$ | async" dropdown>
+                  <a class="dropdown-toggle text-light" dropdownToggle>Welcome, </a>
+                  <div class="dropdown-menu mt-3" *dropdownMenu> 
+                      <a  class="dropdown-item">Users</a>
+                      <div class="dropdown-divider"></div>
+                      <a class="dropdown-item" (click)="logout()">Sign out</a>
+                  </div>
+              </div> -->
+
+
 
         <!-- <div class="mr-auto p-1">
           <form #loginForm="ngForm" 
@@ -52,7 +116,3 @@
         </form>
         </div> -->
         <!-- [hidden] = property-->
-        
-      </div>
-    </div>
-  </nav>

@@ -12,6 +12,7 @@ namespace WEST.Api.Extensions
                                                                 IConfiguration configuration)
         {
             services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<IUserService, UserService>();
             services.AddDbContext<Data.DataContext>(options =>
             {
                 options.UseSqlServer(configuration.GetConnectionString("Default"));

@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace WEST.Api.Entities
 {
@@ -11,10 +12,14 @@ namespace WEST.Api.Entities
         public byte[] PasswordHash { get; set; }
         public byte[] PasswordSalt { get; set; }
         public DateTime Birthdate { get; set; }
-        public UserType Type { get; set; }
         public bool Status { get; set; }
         public int OrganisationId { get; set; }
-        // to add relationship to Organisation
+        public int TypeId { get; set; }
+
+        // Navigation properties
+        
+        public UserType Type { get; set; }
+        public Organisation Organisation { get; set; }
 
     }
 }

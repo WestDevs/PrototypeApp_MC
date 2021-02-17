@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace WEST.Api.DTOs
 {
     public class LoginDto

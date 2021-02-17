@@ -11,6 +11,10 @@ import { FormsModule } from '@angular/forms';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { UsersComponent } from './users/users.component';
+import { UserDetailComponent } from './users/user-detail/user-detail.component';
+import { GroupsComponent } from './groups/groups.component';
+import { LearnerResourcesComponent } from './learner-resources/learner-resources.component';
+import { ReportsComponent } from './reports/reports.component';
 
 
 @NgModule({
@@ -19,7 +23,11 @@ import { UsersComponent } from './users/users.component';
     NavComponent,
     HomeComponent,
     LoginComponent,
-    UsersComponent
+    UsersComponent,
+    UserDetailComponent,
+    GroupsComponent,
+    LearnerResourcesComponent,
+    ReportsComponent
   ],
   imports: [
     BrowserModule,

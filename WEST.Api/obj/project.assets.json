@@ -5577,7 +5577,9 @@
     "net5.0": [
       "Microsoft.AspNetCore.Authentication.JwtBearer >= 5.0.1",
       "Microsoft.AspNetCore.Authentication.OpenIdConnect >= 5.0.1",
+      "Microsoft.EntityFrameworkCore >= 5.0.1",
       "Microsoft.EntityFrameworkCore.Design >= 5.0.1",
+      "Microsoft.EntityFrameworkCore.Relational >= 5.0.1",
       "Microsoft.EntityFrameworkCore.SqlServer >= 5.0.1",
       "Microsoft.EntityFrameworkCore.Tools >= 5.0.1",
       "Swashbuckle.AspNetCore >= 5.6.3",
@@ -5590,11 +5592,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Users\\mari-aiza.canoy\\pluralsight_projects\\PrototypeApp\\WEST.Api\\WEST.Api.csproj",
+      "projectUniqueName": "C:\\users\\mari-aiza.canoy\\pluralsight_projects\\PrototypeApp\\WEST.Api\\WEST.Api.csproj",
       "projectName": "WEST.Api",
-      "projectPath": "c:\\Users\\mari-aiza.canoy\\pluralsight_projects\\PrototypeApp\\WEST.Api\\WEST.Api.csproj",
+      "projectPath": "C:\\users\\mari-aiza.canoy\\pluralsight_projects\\PrototypeApp\\WEST.Api\\WEST.Api.csproj",
       "packagesPath": "C:\\Users\\mari-aiza.canoy\\.nuget\\packages\\",
-      "outputPath": "c:\\Users\\mari-aiza.canoy\\pluralsight_projects\\PrototypeApp\\WEST.Api\\obj\\",
+      "outputPath": "C:\\users\\mari-aiza.canoy\\pluralsight_projects\\PrototypeApp\\WEST.Api\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\mari-aiza.canoy\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -5637,9 +5639,17 @@
               "NU1605"
             ]
           },
+          "Microsoft.EntityFrameworkCore": {
+            "target": "Package",
+            "version": "[5.0.1, )"
+          },
           "Microsoft.EntityFrameworkCore.Design": {
             "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
             "suppressParent": "All",
+            "target": "Package",
+            "version": "[5.0.1, )"
+          },
+          "Microsoft.EntityFrameworkCore.Relational": {
             "target": "Package",
             "version": "[5.0.1, )"
           },

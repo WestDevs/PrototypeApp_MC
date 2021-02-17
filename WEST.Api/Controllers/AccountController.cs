@@ -14,8 +14,12 @@ namespace WEST.Api.Controllers
     {
         private readonly DataContext _context;
         private readonly ITokenService _tokenService;
-        public AccountController(DataContext context, ITokenService tokenService)
+        private readonly IUserService _userService;
+        public AccountController(DataContext context,
+                                 ITokenService tokenService,
+                                 IUserService userService)
         {
+            _userService = userService;
             _tokenService = tokenService;
             _context = context;
         }
@@ -23,19 +27,20 @@ namespace WEST.Api.Controllers
         [HttpPost("register")]
         public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
         {
-            if (await UserExists(registerDto.Username)) return BadRequest("Username is taken");
-            using var hmac = new HMACSHA512(); //will provide hashing algorithm
+            
+            var user = await _userService.CreateUser(registerDto);
 
-            var user = new AppUser
-            {
-                Username = registerDto.Username.ToLower(),
-                PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password)),
-                PasswordSalt = hmac.Key
-            };
+            if (user == null) return BadRequest("Username is taken");
 
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
-
+            if (user.Type == (await _context.UserTypes.AsQueryable().SingleAsync(ut => ut.Name == "Learner")))
+                await _userService.CreateLearner(new RegisterLearnerDto {
+                    UserId = user.Id,
+                    Firstname = user.Firstname,
+                    Lastname = user.Lastname,
+                    Username = user.Username,
+                    Password = registerDto.Password
+                });
+   
             return new UserDto
             {
                 Username = user.Username,
@@ -47,7 +52,7 @@ namespace WEST.Api.Controllers
         public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
         {
             var user = await _context.Users
-                .SingleOrDefaultAsync<AppUser>(user => user.Username == loginDto.Username && user.OrganisationId == loginDto.OrganisationId);
+                .SingleOrDefaultAsync<AppUser>(user => user.Username == loginDto.Username && user.Organisation.Id == loginDto.OrganisationId);
 
             if (user == null) return Unauthorized("Invalid username");
 
@@ -60,7 +65,7 @@ namespace WEST.Api.Controllers
                 if (computedHash[i] != user.PasswordHash[i]) return Unauthorized("Invalid password");
             }
 
-            
+
             return new UserDto
             {
                 Username = user.Username,
@@ -68,11 +73,7 @@ namespace WEST.Api.Controllers
             };
 
         }
-        private async Task<bool> UserExists(string username)
-        {
-            return await _context.Users.AnyAsync(u => u.Username == username.ToLower());
 
-        }
 
 
     }

@@ -1,9 +1,8 @@
 namespace WEST.Api.Entities
 {
-    public enum UserType
+    public class UserType
     {
-        Learner,
-        Tutor,
-        Admin
+        public int Id { get; set; }
+        public string Name { get; set; }
     }
 }

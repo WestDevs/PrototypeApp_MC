@@ -2,7 +2,14 @@
   background-color: darkred;
 }
 
-.dropdown-toggle, .dropdown-item {
+/* .dropdown-toggle, .dropdown-item {
   cursor: pointer;
 
+} */
+
+/* Menu Nav */
+.abs-center-x {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }

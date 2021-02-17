@@ -15,6 +15,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using WEST.Api.Data;
 using WEST.Api.Extensions;
 using WEST.Api.Interfaces;
 using WEST.Api.Services;
@@ -52,6 +53,7 @@ namespace WEST.Api
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WEST.Api v1"));
+                // app.AddEfDiagrams<DataContext>();
             }
 
             app.UseHttpsRedirection();

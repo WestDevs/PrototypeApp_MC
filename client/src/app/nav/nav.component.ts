@@ -15,9 +15,7 @@ export class NavComponent implements OnInit {
   constructor(public accountService: AccountService) { }
 
   ngOnInit(): void {
-    
     var arr = JSON.parse(localStorage.getItem('user'));
-    console.log(arr.username);
   }
   login() {
     this.accountService.login(this.model).subscribe(response => {
