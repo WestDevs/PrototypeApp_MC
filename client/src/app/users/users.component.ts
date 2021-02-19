@@ -21,5 +21,15 @@ export class UsersComponent implements OnInit {
 
     )
   }
+  addUser() {
+    
+  }
+
+  public gridStyle: any = {
+    general: {
+        normal: 'grid-cellimg-normal'
+    }
+}
+
 
 }

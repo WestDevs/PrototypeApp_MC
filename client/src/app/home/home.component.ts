@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import { Component,  OnInit } from '@angular/core';
+import { Component,  EventEmitter,  OnInit, Output } from '@angular/core';
+import { Router } from '@angular/router';
 import { AnonymousSubject } from 'rxjs/internal/Subject';
 import { Organisation } from '../_models/organisation';
 import { User } from '../_models/user';
@@ -19,9 +20,11 @@ export class HomeComponent implements OnInit {
   loginDetails: any;
   userToken: User;
   loggedIn = false;
+  @Output() notifyNav = new EventEmitter();
   
   constructor(private http: HttpClient,
-              private accountService: AccountService) { }
+              public accountService: AccountService,
+              private router: Router) { }
 
   ngOnInit(): void {
     // this.getUsers();
@@ -30,6 +33,10 @@ export class HomeComponent implements OnInit {
 
   logInToggle() {
     this.logInMode = !this.logInMode;
+  }
+  login(){
+    
+    this.notifyNav.emit("login");
   }
 
   getOrganisations(){    
@@ -48,6 +55,8 @@ export class HomeComponent implements OnInit {
       this.loggedIn = true;
       this.logInMode = false;      
       this.userToken = JSON.parse(localStorage.getItem('user'));
+      // this.router.navigateByUrl("home");
+      // this.router.navigate(['/nav']);
     }, error => {
       console.log(error);
     });

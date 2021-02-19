@@ -29,7 +29,7 @@ namespace WEST.Api.Services
                 PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password)),
                 PasswordSalt = hmac.Key,
                 Organisation = await _dataContext.Organisations.FindAsync(registerDto.OrganisationId),
-                Type = await _dataContext.UserTypes.FindAsync(registerDto.UserType),
+                Type = await _dataContext.UserTypes.FindAsync(registerDto.UserTypeId),
                 Firstname = registerDto.Firstname,
                 Lastname = registerDto.Lastname
             };
@@ -49,17 +49,25 @@ namespace WEST.Api.Services
         public async Task<LearnerDto> CreateLearner(RegisterLearnerDto registerLearnerDto)
         {
             AppUser user = new AppUser();
+
             if (registerLearnerDto.UserId == 0) // no user yet 
+            {
+                var orgId = registerLearnerDto.OrganisationId == 0 ?
+                                registerLearnerDto.Organisation.Id :
+                                registerLearnerDto.OrganisationId;
+                if (orgId == 0) return null;
+
                 user = await CreateUser(new RegisterDto {
                     Username = registerLearnerDto.Username,
                     Password = registerLearnerDto.Password,
-                    OrganisationId = registerLearnerDto.OrganisationId,
-                    UserType = (await _dataContext.UserTypes.AsQueryable().SingleAsync(ut => ut.Name == "Learner")).Id,
+                    OrganisationId = orgId,
+                    UserTypeId = (await _dataContext.UserTypes.AsQueryable().SingleAsync(ut => ut.Name == "Learner")).Id,
                     Firstname = registerLearnerDto.Firstname,
                     Lastname = registerLearnerDto.Lastname
                 });
+            }
 
-            if (user==null || registerLearnerDto.UserId == 0) return null;
+            if ( user == null && registerLearnerDto.UserId == 0) return null;
             var learner = new Learner
                 {
                     UserId = user.Id == 0 ? registerLearnerDto.UserId : user.Id
@@ -68,23 +76,22 @@ namespace WEST.Api.Services
             _dataContext.Learners.Add(learner);
             await _dataContext.SaveChangesAsync();
 
-            LearnerGroup learnerGroup;
-            if (!string.IsNullOrWhiteSpace(registerLearnerDto.GroupName))
+            LearnerGroup learnerGroup = new LearnerGroup();
+            if (registerLearnerDto.Group != null)
             {
-                learnerGroup = new LearnerGroup {
-                    LearnerId = learner.LearnerId,
-                    GroupId = (await _dataContext.Groups.AsQueryable().SingleAsync(g => g.Name == registerLearnerDto.GroupName)).Id
-                };
-            _dataContext.LearnerGroup.Add(learnerGroup);
-            await _dataContext.SaveChangesAsync();
+                learnerGroup.LearnerId = learner.LearnerId;
+                learnerGroup.GroupId = registerLearnerDto.Group.Id;
+                _dataContext.LearnerGroup.Add(learnerGroup);
+                await _dataContext.SaveChangesAsync();
             }
 
-            if (registerLearnerDto.Courses.Count > 0)
+            if (registerLearnerDto.Courses != null && registerLearnerDto.Courses.Count > 0)
             {
                 foreach (var course in registerLearnerDto.Courses)
                     _dataContext.LearnerCourses.Add(new LearnerCourse {
                         LearnerId = learner.LearnerId,
-                        CourseId = course
+                        CourseId = course.Id
+                        // CourseId = course
                     });
                 await _dataContext.SaveChangesAsync();
             }
@@ -95,10 +102,10 @@ namespace WEST.Api.Services
                 Username = user.Username,
                 Firstname = user.Firstname,
                 Lastname = user.Lastname,
-                GroupName = string.IsNullOrWhiteSpace(registerLearnerDto.GroupName) 
-                            ? string.Empty
-                            : (await _dataContext.Groups.AsQueryable().SingleAsync(g => g.Name == registerLearnerDto.GroupName)).Name,
-            
+                Group = learnerGroup.Group == null ? null : new GroupDto {
+                        Id = learnerGroup.Group.Id,
+                        Name = learnerGroup.Group.Name },
+                Courses = registerLearnerDto.Courses
             };
         }
         private async Task<bool> UserExists(string username)

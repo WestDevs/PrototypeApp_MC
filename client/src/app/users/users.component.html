@@ -1,100 +1,128 @@
-<!-- <h1>Welcome {{user.username}}!</h1> -->
+<main role="main" id="main-content">
 
-<!-- Test display learners -->
-<!-- <div class="container">
-    <ul *ngFor="let learner of learners">
-        <li>{{learner.userId}}</li>
-        <li>{{learner.username}}</li>
-        <li>{{learner.firstname}}</li>
-        <li>{{learner.lastname}}</li>
-        <li>{{learner.groupname}}</li>
-    </ul>
-</div> -->
-<h6>Users</h6>
+  <header>
+    <div class="h1Wrapper">
+      <h1 class="title" id="page-title">Users</h1>
+    </div>
+  </header>
 
-<body class="d-flex flex-column h-100 text-align" style="background-image: url('./assets/splash.png');">
-<article role="application">
-
-        
-        
-
+  <article style="font-size: small ;">
     <a id="main-content"></a>
-
-      <div class="tabs">
+    <section class="left">
+      <div id="block-system-main" class="block block-system">
+        <div class="content">
+          <div id="s2g">
+            <div id="views">
+              <div class="submenu">
+                <a class="newLearnerButton" (click)="addUser()">New Learner</a>
+              </div>
+              <div class="contentpaneopen">
+                <p>Click a learner name to view and update an individual’s learning plan and details.</p>
+                <p>To apply an action to one or more learners in this list, select their checkboxes and then press the
+                  appropriate
+                  ‘Action’ button at the bottom of the list. Please <a href="/?q=node/111">read these notes before
+                    disabling or deleting accounts</a>.</p>
+                <p>Use the search options to filter the list by keyword, course, or group.</p>
+              </div>
+              <div class="formTable">
+                <form method id="form_0" name="admin_learner_search">
+                  <fieldset class="filters">
+                    <legend>Search Options</legend>
+                    <div id="courseBox2">
+                      <label for="courseFilter">Courses</label>
+                      <select name="courseFilter" id="courseFilter" onchange="submit();" >
+                        <option value="">All Courses</option>
+                        <optgroup label="= Current ="></optgroup>
+                        <option value="161" class="disabled">Application of Number</option>
+                        <option value="171" class="disabled">Application of Number 2015</option>
+                        <option value="160" class="disabled">Communication (English)</option>
+                        <option value="170" class="disabled">Communication (English) 2015</option>
+                        <option value="162" class="disabled">Communication (Welsh)</option>
+                        <option value="172" class="disabled">Communication (Welsh) 2015</option>
+                        <option value="164" class="disabled">Digital Literacy</option>
+                        <option value="165" class="disabled">ESOL</option>
+                      </select>
+                    </div>
+                    <br>
+                    <div id="groupBox2">
+                      <label for="groupFilter">Groups</label>
+                      <select name="groupFilter" id="groupFilter">
+                        <option value="">All Groups</option>
+                        <option value="713">default</option>
+                      </select>
+                    </div>
+                    <div id="groupBox2">
+                      <label>Account status</label>
+                      <label for="statusEn"><input type="radio" name="status" id="statusEn" value="1" checked=""
+                          style="width:auto;"> Enabled</label>
+                      <label for="statusDis"><input type="radio" name="status" id="statusDis" value="0"
+                          style="width:auto;"> Disabled</label>
+                    </div>
+                    <div class="right" id="searchBox">
+                      <input type="text" />
+                      <input type="submit" value="Search"> </div>
+                  </fieldset>
+                  <table class="table table-condensed table-hover">
+                    <thead style="background-color: #919191; color: white; font-weight: bold; text-indent: 1.5em;">
+                      <tr>
+                        <th>Names
+                          <!-- <select name="nameSort" id="nameSort">
+                          <option value="firstname">First name</option>
+                          <option value="lastname">Surname</option>
+                        </select> -->
+                        </th>
+                        <th>Groups</th>
+                        <th>Courses</th>
+                      </tr>
+                    </thead>
+                    <tbody style="border-top: 1px solid #ccc; ">
+                      <tr *ngFor="let learner of learners">
+                        <td>
+                          <a href="#">{{learner.firstname}} {{learner.lastname}}</a> [{{learner.username}}]
+                        </td>
+                        <td>{{learner.group?.name}}</td>
+                        <td>
+                            <span *ngFor="let course of learner.courses">
+                                <img src={{course.iconPath}} title={{course.name}} >
+                            </span>
+                        </td>
+                        <!-- <td class="action-button-column"> -->
+                          <!-- <a title="Edit" (click)="editUser(user.id)"><i class="fas fa-edit"></i> </a>
+                          <a title="Delete" (click)="deleteUser(user.id)" style="margin-left: 12px;"><i class="fas fa-trash-alt"></i> </a> -->
+                        <!-- </td> -->
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div class="tableActions">
+                    <span class="selection">Select:
+                      <a id="S2GselectAll_0" href="#" title="select all">All</a>,
+                      <a id="S2GselectNone_0" href="#" title="deselect all">None</a>
+                    </span>
+                    <div class="paginationWrapper">
+                      <div class="pagination">Page:
+                        <a href="?q=adv_learnerlist&amp;centreFilter=&amp;regionFilter=&amp;courseFilter=&amp;groupFilter=&amp;showDemoTest=yes&amp;query=&amp;status=1&amp;page="
+                          title="go back a page" class="arrow">«</a>
+                        <a href="?q=adv_learnerlist&amp;centreFilter=&amp;regionFilter=&amp;courseFilter=&amp;groupFilter=&amp;showDemoTest=yes&amp;query=&amp;status=1&amp;page=1"
+                          class="current" title="page 1">1</a>
+                        <a href="?q=adv_learnerlist&amp;centreFilter=&amp;regionFilter=&amp;courseFilter=&amp;groupFilter=&amp;showDemoTest=yes&amp;query=&amp;status=1&amp;page=2"
+                          class="number" title="page 2">2</a>
+                        <a href="?q=adv_learnerlist&amp;centreFilter=&amp;regionFilter=&amp;courseFilter=&amp;groupFilter=&amp;showDemoTest=yes&amp;query=&amp;status=1&amp;page=3"
+                          class="number" title="page 3">3</a>
+                        <a href="?q=adv_learnerlist&amp;centreFilter=&amp;regionFilter=&amp;courseFilter=&amp;groupFilter=&amp;showDemoTest=yes&amp;query=&amp;status=1&amp;page=2"
+                          title="go forward a page" class="arrow">»</a>
+                      </div>
+                    </div>
+                    <span class="actions">Action:
+                      <input style="margin-right: 10px;" id="S2Gassigncourses_0" type="button" value="Assign courses">
+                      <input id="lDisable" type="button" value="Disable">
+                    </span>
+                  </div>
+                </form>
+              </div>
+            </div>
           </div>
-                        <section class="left">
-
-<div id="block-system-main" class="block block-system">
-
-
-<div class="content">
-<div id="s2g">
-<div id="views">
-<div class="submenu">
-<a href="?q=adv_learner&amp;last_page=adminLearnerList" class="button">New learner</a>
-</div>
-<div class="contentpaneopen">
-<p>Click a learner name to view and update an individual’s learning plan and details.</p>
-<p>To apply an action to one or more learners in this list, select their checkboxes and then press the appropriate ‘Action’   button at the bottom of the list. Please <a href="/?q=node/111">read these notes before disabling or deleting accounts</a>.</p>
-<p>Use the search options to filter the list by keyword, course, or group.</p>
-
-</div>
-<div class="formTable">
-    <form method="" id="form_0" name="admin_learner_search" action="?q=adv_learnerlist">
-
-<fieldset class="filters">
-<legend>Search options</legend>
-
-
-
-<div id="groupBox2">
-    <label>Account status</label>
-    <label for="statusEn"><input type="radio" name="status" id="statusEn" value="1" onchange="submit();" checked="" style="width:auto;"> Enabled</label>
-    <label for="statusDis"><input type="radio" name="status" id="statusDis" value="0" onchange="submit();" style="width:auto;"> Disabled</label>
-</div>
-
-
-</fieldset>
-
-<table class="learnersList" cellspacing="0">
-    <thead>
-        <tr>
-            <th> <label for="nameSort">Sort </label>
-                <select name="nameSort" id="nameSort" onchange="submit();">
-                    <option value="firstname">First name</option>
-                    <option value="lastname">Surname</option>
-                </select>
-            </th>
-            <th>Groups</th>
-            <th>Courses</th>
-        </tr>
-    </thead>
-    <tbody *ngFor="let learner of learners">
-        <tr>
-            <td ><input type="checkbox" name="learner[]" value="learner.username">
-                <a href="#">{{learner.firstname}} {{learner.lastname}}</a>[{{learner.username}}]</td>
-            <td >{{learner.groupName}}</td>
-            <td class="status"><img src="./assets/esm.png" title="Application of Number">
-                <img src="./assets/esl.png" title="Communication (English)"></td>
-        </tr>
-                                                                            </tbody>
-</table>
-<div class="tableActions"> <span class="selection">Select: <a id="S2GselectAll_0" href="#" title="select all">All</a>, <a id="S2GselectNone_0" href="#" title="deselect all">None</a></span>
-<div class="paginationWrapper"><div class="pagination">Page: <a href="?q=adv_learnerlist&amp;centreFilter=&amp;regionFilter=&amp;courseFilter=&amp;groupFilter=&amp;showDemoTest=yes&amp;query=&amp;status=1&amp;page=" title="go back a page" class="arrow">«</a><a href="?q=adv_learnerlist&amp;centreFilter=&amp;regionFilter=&amp;courseFilter=&amp;groupFilter=&amp;showDemoTest=yes&amp;query=&amp;status=1&amp;page=1" class="current" title="page 1">1</a><a href="?q=adv_learnerlist&amp;centreFilter=&amp;regionFilter=&amp;courseFilter=&amp;groupFilter=&amp;showDemoTest=yes&amp;query=&amp;status=1&amp;page=2" class="number" title="page 2">2</a><a href="?q=adv_learnerlist&amp;centreFilter=&amp;regionFilter=&amp;courseFilter=&amp;groupFilter=&amp;showDemoTest=yes&amp;query=&amp;status=1&amp;page=3" class="number" title="page 3">3</a><a href="?q=adv_learnerlist&amp;centreFilter=&amp;regionFilter=&amp;courseFilter=&amp;groupFilter=&amp;showDemoTest=yes&amp;query=&amp;status=1&amp;page=2" title="go forward a page" class="arrow">»</a></div></div> 
-<span class="actions">Action: <input id="S2Gassigncourses_0" type="button" value="Assign courses" data-href="?q=adv_learnercourse"> 
-<input id="lDisable" type="button" value="Disable"> </span> </div>
-</form>
-</div>
-</div>
-<!-- end of views -->
-</div>  </div>
-</div>
-
-
-</section>
-
-
-
-
-</article>
-</body>
+        </div>
+      </div>
+    </section>
+  </article>
+</main>

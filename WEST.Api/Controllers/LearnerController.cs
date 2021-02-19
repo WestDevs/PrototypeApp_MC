@@ -27,41 +27,44 @@ namespace WEST.Api.Controllers
         public async Task<ActionResult<IEnumerable<LearnerDto>>> GetLearners()
         {
             List<LearnerDto> learnersDto = new List<LearnerDto>();
-
-            var learnerUsers = await _context.Users
-                                .AsQueryable()
-                                .Where(user => user.Type == _context.UserTypes.Find(3)) // server-evaluated
+            var learners = await _context.Learners
+                                .Include(l => l.LearnerGroup.Group)
+                                .Include(l => l.LearnerCourses)
+                                .Include(l => l.User)
+                                .Include(l => l.User.Type)
+                                .Include(l => l.User.Organisation)
                                 .ToListAsync();
+            // if (learners == null) return null;
 
-            foreach (var learnerUser in learnerUsers)
+
+            foreach (var learner in learners)
             {
-                // select the user from learners table
-                var learners = await _context.Learners
-                                .AsQueryable()
-                                .Where(learner => learner.User == learnerUser)
-                                .ToListAsync();
-
-                if (learners == null) return null;
-
-                foreach (var learner in learners)
+                var learnerDto = new LearnerDto
                 {
-                    string groupName = null;
-                    if (await _context.LearnerGroup.AnyAsync(lg => lg.LearnerId == learner.LearnerId))
-                        groupName = (await _context.Groups.FindAsync(
-                            (await _context.LearnerGroup.AsQueryable().SingleAsync
-                            (lg => lg.LearnerId == learner.LearnerId)).GroupId)).Name;
+                    UserId = learner.User.Id,
+                    LearnerId = learner.LearnerId,
+                    Username = learner.User.Username,
+                    Group = learner.LearnerGroup == null ? null :  
+                                new GroupDto {
+                                    Id = learner.LearnerGroup.Group.Id,
+                                    Name = learner.LearnerGroup.Group.Name },
+                    Firstname = learner.User.Firstname,
+                    Lastname = learner.User.Lastname,
+                    Organisation = learner.User.Organisation
+                };
 
-                    learnersDto.Add(new LearnerDto
-                    {
-                        UserId = learnerUser.Id,
-                        LearnerId = learner.LearnerId,
-                        Username = learnerUser.Username,
-                        // GroupName = (await _context.LearnerGroup.AsQueryable().SingleAsync(lg => lg.LearnerId == learner.LearnerId)).Group.Name,
-                        GroupName = groupName,
-                        Firstname = learnerUser.Firstname,
-                        Lastname = learnerUser.Lastname
+                foreach (var learnerCourse in learner.LearnerCourses)
+                {
+                    var course = await _context.Courses.FirstOrDefaultAsync(c => c.Id == learnerCourse.CourseId);
+                    learnerDto.Courses.Add(new CourseDto { 
+                                                Id = course.Id,
+                                                Name = course.Name,
+                                                IconPath = course.IconPath
                     });
                 }
+
+                learnersDto.Add(learnerDto);
+
             }
             return learnersDto;
 

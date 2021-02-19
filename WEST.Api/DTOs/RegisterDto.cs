@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using WEST.Api.Entities;
 
 namespace WEST.Api.DTOs
 {
@@ -11,7 +12,8 @@ namespace WEST.Api.DTOs
         [Required]
         public int OrganisationId { get; set; }
         [Required]
-        public int UserType { get; set; }
+        public int UserTypeId { get; set; }
+        public UserType Type { get; set; }
         public string Firstname { get; set; }
         public string Lastname { get; set; }
     }

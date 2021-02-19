@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { TabsModule } from 'ngx-bootstrap/tabs';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -15,6 +16,7 @@ import { UserDetailComponent } from './users/user-detail/user-detail.component';
 import { GroupsComponent } from './groups/groups.component';
 import { LearnerResourcesComponent } from './learner-resources/learner-resources.component';
 import { ReportsComponent } from './reports/reports.component';
+import { NavLinkComponent } from './nav/nav-link/nav-link.component';
 
 
 @NgModule({
@@ -27,7 +29,8 @@ import { ReportsComponent } from './reports/reports.component';
     UserDetailComponent,
     GroupsComponent,
     LearnerResourcesComponent,
-    ReportsComponent
+    ReportsComponent,
+    NavLinkComponent
   ],
   imports: [
     BrowserModule,
@@ -35,7 +38,8 @@ import { ReportsComponent } from './reports/reports.component';
     HttpClientModule,  
     BrowserAnimationsModule,
     FormsModule,
-    BsDropdownModule.forRoot()
+    BsDropdownModule.forRoot(),
+    TabsModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
