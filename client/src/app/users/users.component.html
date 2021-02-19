@@ -31,24 +31,16 @@
                     <div id="courseBox2">
                       <label for="courseFilter">Courses</label>
                       <select name="courseFilter" id="courseFilter" onchange="submit();" >
-                        <option value="">All Courses</option>
-                        <optgroup label="= Current ="></optgroup>
-                        <option value="161" class="disabled">Application of Number</option>
-                        <option value="171" class="disabled">Application of Number 2015</option>
-                        <option value="160" class="disabled">Communication (English)</option>
-                        <option value="170" class="disabled">Communication (English) 2015</option>
-                        <option value="162" class="disabled">Communication (Welsh)</option>
-                        <option value="172" class="disabled">Communication (Welsh) 2015</option>
-                        <option value="164" class="disabled">Digital Literacy</option>
-                        <option value="165" class="disabled">ESOL</option>
+                        <option selected value="">All Courses</option>
+                        <option *ngFor="let course of courses" value="course.id">{{course.name}}</option>
                       </select>
                     </div>
                     <br>
                     <div id="groupBox2">
                       <label for="groupFilter">Groups</label>
-                      <select name="groupFilter" id="groupFilter">
-                        <option value="">All Groups</option>
-                        <option value="713">default</option>
+                      <select name="groupFilter" id="groupFilter" >
+                          <option selected value="">All Groups</option>
+                          <option *ngFor="let group of groups" value="group.id">{{group.name}}</option>
                       </select>
                     </div>
                     <div id="groupBox2">
